@@ -12,7 +12,7 @@ const filter = require('../client/lib/filter');
 const date = require('../client/lib/date');
 const reservation = require('./lib/reservation');
 const session = require('express-session');
-const MySQLStore = require('express-mysql-session')(session);
+const sessionOptions = require('./lib/express-session-options');
 const { database } = require('./lib/database');
 app.set('view engine', 'pug');
 app.set('views',  path.join(__dirname, '../client/pages'));
@@ -20,17 +20,7 @@ app.use(express.static('client'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(session({
-    secret: 'hwb0218',
-    resave: false,
-    saveUninitialized: false,
-    store: new MySQLStore({
-        host     : 'localhost',    // 호스트 주소
-        user     : 'root',           // mysql user
-        password : 'dz731106hjh!',       // mysql password
-        database : 'yanolja'
-    })
-}));
+app.use(session(sessionOptions));
 
 const isLoggedIn = (req, res, viewFile, render) => {
     const url = req.path;
