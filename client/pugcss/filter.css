@@ -1,0 +1,172 @@
+.filter_wrap {
+    position: relative;
+    width: 30%;
+    top: 40px;
+    margin: 0 32px 0 32px;
+    padding: 10px 24px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 5px;
+    float: left;
+}
+
+.wrap {
+    overflow: auto;
+}
+
+.date_wrap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.filter_wrap section ul li {
+    margin-bottom: 16px;
+}
+
+.filter_wrap > span {
+    padding: 14px 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    display: block;
+    font-size: 18px;
+}
+
+.filter_wrap .btn_wrap {
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn_wrap button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.filter_wrap button {
+    width: 125px;
+    height: 40px;
+    color: #fff;
+    background-color: #f2074c;
+    border: none;
+    text-align: center;
+    font-size: 18px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.filter_wrap button:first-child {
+    background-color: #fff;
+    color: #f2074c;
+    border : 1px solid #f2074c;
+}
+
+.filter_wrap .wrap li {
+    float : left;
+    position: relative;
+    width : 50%;
+}
+
+.label_chk {
+    position: absolute;
+    cursor: pointer;
+    font-size: 13.5px;
+    margin-left : 5px;
+    top: 2px;
+    text-align: center;
+}
+
+.category5_wrap  {
+    position: relative;
+}
+
+.multi-range-slider {
+    position: relative;
+    height: 40px;
+    margin: 20px 0 0 0;
+}
+
+.slider {
+    position: relative;
+    z-index: 1;
+    height: 10px;
+    margin: 0 15px;
+}
+
+.slider > .track {
+    position: absolute;
+    z-index : 1;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.56);
+    opacity: .3;
+}
+
+.slider > .range {
+    position: absolute;
+    z-index: 2;
+    left: 0%;
+    right: 0%;
+    top: 0;
+    bottom: 0;
+    border-radius: 5px;
+    background-color: #f2074c;
+}
+
+.slider > .thumb {
+    position: absolute;
+    z-index: 3;
+    width: 30px;
+    height: 30px;
+    background-color: #f2074c;
+    border-radius: 25px;
+}
+
+.slider .thumb.left {
+    left: 0%;
+    transform: translate(-15px, -10px);
+}
+
+.slider .thumb.right {
+    right: 0%;
+    transform: translate(15px, -10px);
+}
+
+input[type=range] {
+    position: absolute;
+    pointer-events: none;
+    -webkit-appearance: none;
+    z-index: 2;
+    height: 10px;
+    width : 100%;
+    opacity: 0;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    pointer-events: all;
+    width: 30px;
+    height: 30px;
+    border-radius: 0;
+    border: 0 none;
+    background-color: red;
+    -webkit-appearance: none;
+}
+.category5_wrap .price_txt {
+    position: absolute;
+    top: 25px;
+}
+
+.category5_wrap .price_txt:last-child {
+    right: 0;
+}
+
+.price_value {
+    font-size : 1rem;
+}
+
+input[type=date]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+}

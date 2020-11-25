@@ -1,0 +1,20 @@
+div.header-wrapper
+    header.header
+        div.header__header-column
+            a(href='/')
+                h1.header__title 야!여기어때
+        div.header__header-column
+            if authorized
+                span.header__icon
+                    a(href='/mypage')
+                        i.fas.fa-list
+                span.header__icon
+                    a(href='/api/users/logout')
+                        i.fas.fa-sign-out-alt
+            else
+                span.header__icon
+                    a(href='/register')
+                        i.far.fa-registered
+                span.header__icon
+                    a(href='/login')
+                        i.fas.fa-sign-in-alt

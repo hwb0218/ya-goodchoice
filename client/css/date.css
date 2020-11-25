@@ -1,0 +1,15 @@
+.datepicker {
+  padding: 1em 1.5em;
+  font-size: 1.2em;
+  border-width: 0;
+}
+
+.datepicker:focus {
+  outline: none;
+}
+
+/* input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="date"]::-webkit-inner-spin-button {
+  display: none;
+  appearance: none;
+} */

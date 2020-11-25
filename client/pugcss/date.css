@@ -1,0 +1,9 @@
+.datepicker {
+    padding: 1em 1.5em;
+    font-size: 1.2em;
+    border-width: 0;
+}
+
+.datepicker:focus {
+    outline: none;
+}

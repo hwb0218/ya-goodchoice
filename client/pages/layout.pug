@@ -1,0 +1,93 @@
+doctype html
+html(lang="ko")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css")
+        link(href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet")
+        block head
+    body
+
+        form(action=path method='get' id='form')
+            input(type='hidden' name='sort' id='sort' value=sort)
+            input(type='hidden' name='roomType' id='roomType')
+            input(type='hidden' name='id' id='id')
+            include header
+
+            div.sub__top
+                div.sub__top-container
+                    block roomType
+
+                    div.wrapper
+                        nav.menu
+                            ul
+                                li
+                                    a(href='') 서울
+                                    ul.menu-subItem
+                                        - var arr = ['서울 인기숙소', '강남, 역삼, 삼성, 논현','서초, 방배', '잠실, 신천'];
+                                        each val in arr
+                                            li
+                                                a= val
+            main
+                div.filter_wrap
+                    section.date_wrap
+                        input.datepicker(type='date' id='checkIn' name='sel_date' min='2020-10-01')
+                        input.datepicker(type='date' id='checkOut' name='sel_date2')
+                    span 상세조건
+                    section.btn_wrap
+                        button(type='button' onclick="window.location.href='http://localhost:3030/pug/motel'") 초기화
+                        button(type='submit') 적용
+                    block category
+
+                    span 가격&nbsp
+                        span.price_value.min_price 10000원 ~
+                        span.price_value.max_price  100000원
+                    section.category5_wrap
+                        div.multi-range-slider
+                            if !price.length
+                                input(type='range' id='input-left' min='10000' max='100000' step='10000' value='10000' name='min_price')
+                                input(type='range' id='input-right' min='10000' max='100000' step='10000' value='100000' name='max_price')
+                                div.slider
+                                    div.track
+                                    div.range
+                                    div.thumb.left
+                                    div.thumb.right
+                            else
+                                input(type='range' id='input-left' min='10000' max='100000' step='10000' value=price[0] name='min_price')
+                                input(type='range' id='input-right' min='10000' max='100000' step='10000' value=price[1] name='max_price')
+                                div.slider
+                                    div.track
+                                    div.range
+                                    div.thumb.left
+                                    div.thumb.right
+                        span.price_txt 1만원
+                        span.price_txt 10만원
+                div.list_wrap
+                    div.top_sort
+                        div.btn_wrap
+                            button.btn_wrap-ascend(data-sort='LOWPRICE') 낮은 가격 순
+                            button.btn_wrap-descend(data-sort='HIGHPRICE') 높은 가격 순
+                    div.sort_list
+                        block roomList
+            div.modal.hidden
+                div.modal__overlay
+                div.modal__content
+                    h1 예약 하시겠습니까?
+                    button 예
+                    button(type='button') 아니오
+        script(type='text/javascript').
+            const selectedDate = '#{selectedDate}'.split(",");
+            const datePicker = document.querySelectorAll('input[type = date]');
+            selectedDate.forEach((date, i) => {
+                datePicker[i].value = date;
+            });
+            const checked = [#{checked}];
+            checked.forEach((x) => {
+                document.querySelector(`input[value = '${x}']`).checked = true;
+            });
+            const minPrice = #{price[0] ? price[0] : 10000};
+            const maxPrice = #{price[1] ? price[1] : 100000};
+        script(src="../js/filter.js")
+        script(src="../js/sort.js")
+        script(src="../js/date.js")
+        script(src="../js/reservation.js")

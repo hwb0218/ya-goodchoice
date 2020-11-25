@@ -1,0 +1,78 @@
+.list_wrap {
+    position: relative;
+    float: left;
+    width: 635px;
+    margin-top: 40px;
+}
+
+.top_sort .btn_wrap {
+    display: flex;
+    height: 40px;
+    border : 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 5px;
+}
+
+.top_sort button {
+    width: 100%;
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+}
+button:focus {
+    outline: none;
+}
+
+.list_wrap .btn_wrap button:nth-child(2) {
+    border-left : 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.list_wrap span {
+    display: block;
+    text-align: right;
+}
+
+.top_sort {
+    margin-bottom: 28px;
+}
+
+.img {
+    position: relative;
+    height: 333px;
+    border-radius: 5px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-bottom: 5px;
+}
+
+.img button {
+    position: absolute;
+    bottom: 25%;
+    right: 1%;
+    width: 72px;
+    border: none;
+    background-color: #F0F0E6;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.img .content {
+    position: absolute;
+    padding: 5px 0;
+    border-radius: 5px;
+    bottom: 2%;
+    right: 1%;
+    font-size: 1.2rem;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.3);
+    height: 22%;
+    /*width: 20%;*/
+}
+
+.content .container {
+    display: flex;
+    height: 100%;
+    padding: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

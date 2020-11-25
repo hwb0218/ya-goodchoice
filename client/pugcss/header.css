@@ -1,0 +1,39 @@
+.header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 20px 0;
+    padding: 0 20px;
+}
+
+.header-wrapper {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 80px;
+    padding: 10px 0px;
+    background-color: #f6323e;
+    color: white;
+    z-index: 3;
+}
+
+.header .header__header-column {
+    display: flex;
+    align-items: center;
+}
+
+.header .header__title {
+    font-weight: 900;
+    font-size: 25px;
+    margin-left: 50px;
+}
+
+.header .header__icon {
+    margin-left: 35px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.header__header-column:last-child {
+    margin-right: 20px;
+}
