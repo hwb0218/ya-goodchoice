@@ -11,9 +11,9 @@ const { auth } = require('./middleware/auth');
 const filter = require('../client/lib/filter');
 const date = require('../client/lib/date');
 const reservation = require('./lib/reservation');
+const { database } = require('./lib/database');
 const session = require('express-session');
 const sessionOptions = require('./lib/express-session-options');
-const { database } = require('./lib/database');
 app.set('view engine', 'pug');
 app.set('views',  path.join(__dirname, '../client/pages'));
 app.use(express.static('client'));
@@ -228,7 +228,7 @@ app.post('/api/users/login', (req, res) => {
         if (users.length === 0) {
             return res.json({ success: false, message: '제공 된 이메일에 해당하는 유저가 없습니다.' });
         }
-        User.comparePassword(request.password, users,function (err ,isMatch) {
+        User.comparePassword(request.password, users,function (err, isMatch) {
             if(!isMatch) {
                 return res.json({ loginSuccess: false, message: "비밀번호가 틀렸습니다."});
             }

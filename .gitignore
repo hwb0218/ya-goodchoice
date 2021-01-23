@@ -1,4 +1,4 @@
 node_modules
 database.js
 express-session-options.js
-
+secret
