@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const { database } = require('../lib/database');
 const User = require('../lib/User');
-const filter = require('../../client/lib/filter');
+const filter = require('../lib/filter');
 const reservation = require('../lib/reservation');
 const { auth } = require('../middleware/auth');
 
