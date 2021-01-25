@@ -175,33 +175,12 @@ app.get('/pug/hotel', (req, res) => {
 })
 
 app.get('/register', (req, res) => {
-    fs.readFile('./client/views/register.html', 'utf8', (err, data) => {
-        if (err) {
-            return res.send(err);
-        }
-        res.send(data);
-    });
+    res.render('register');
 });
 
 app.get('/login', (req, res) => {
-    fs.readFile('./client/views/login.html', 'utf8', (err, data) => {
-        if (err) {
-            return res.send(err);
-        }
-        res.send(data);
-    });
+    res.render('login');
 });
-
-
-app.get('/motel', (req, res) => {
-    fs.readFile('./client/views/motel.html', 'utf8', (err, data) => {
-        if (err) {
-            return res.send(err);
-        }
-        res.send(data);
-    });
-});
-
 
 const checkInFormatting = (dateType) => {
     return `${dateType.getFullYear()}.${dateType.getMonth() + 1}.${dateType.getDate()}`;
