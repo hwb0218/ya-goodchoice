@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const fs = require('fs');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const filter = require('./lib/filter');
@@ -9,15 +8,18 @@ const date = require('./lib/date');
 const { database } = require('./lib/database');
 const session = require('express-session');
 const sessionOptions = require('./lib/express-session-options');
+
 app.set('view engine', 'pug');
-app.set('views',  path.join(__dirname, '../client/pages'));
+app.set('views',  path.join(__dirname, '../client/views'));
+
 app.use(express.static('client'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(session(sessionOptions));
-app.use('/api/users', require('./routes/user'));
 
+app.use('/api/users', require('./routes/user'));
+app.use('/api/reservation', require('./routes/reservation'));
 
 const isLoggedIn = (req, res, viewFile, render) => {
     const url = req.path;
@@ -34,7 +36,7 @@ app.get('/', (req, res) => {
     isLoggedIn(req, res, 'index', {});
 });
 
-app.get('/pug/motel', (req, res) => {
+app.get('/motel', (req, res) => {
     database.query(`SELECT * FROM motel_filter`, (err, filterData) => {
         let query = [];
         let params = [];
@@ -103,7 +105,7 @@ app.get('/pug/motel', (req, res) => {
     });
 });
 
-app.get('/pug/hotel', (req, res) => {
+app.get('/hotel', (req, res) => {
     database.query(`SELECT * FROM hotel_filter`, (err, filterData) => {
         let query = [];
         let params = [];
@@ -209,6 +211,7 @@ const getCheckInOut = (groupedRoom) => {
 
 app.get('/mypage', (req, res) => {
     const token = req.session.auth;
+    console.log(token);
     const hotelListQuery = 'SELECT HOTEL_NAME, HOTEL_IMAGE FROM hotel WHERE HOTEL_ID IN (SELECT HOTEL_ID FROM hotel_reservation WHERE USER_ID IN (SELECT user.id FROM user WHERE token = ?))';
     const motelListQuery = 'SELECT MOTEL_NAME, MOTEL_IMAGE FROM motel WHERE MOTEL_ID IN (SELECT MOTEL_ID FROM motel_reservation WHERE USER_ID IN (SELECT user.id FROM user WHERE token = ?))';
     const getDatesOfHotel = 'SELECT RESERVATION_DATE, HOTEL_ID FROM hotel_reservation WHERE USER_ID IN (SELECT user.id FROM user WHERE token = ?)';

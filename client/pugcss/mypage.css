@@ -1,6 +1,5 @@
 @import "reset.css";
 @import "header.css";
-@import "subTop.css";
 
 * {
     box-sizing: border-box;
@@ -18,24 +17,10 @@ a {
 }
 
 .container {
-    position: relative;
-    top: 100px;
-    left: 500px;
-    width: 40%;
-    border-radius: 2px;
-}
-
-.room_section {
     display: flex;
     justify-content: center;
-    align-items: center;
-}
-
-.room_reservation_item {
-    display: table;
-    width: 100%;
-    padding: 23px 0;
-    table-layout: fixed;
+    position: relative;
+    top: 120px;
 }
 
 .room_reservation_item + .room_reservation_item {
@@ -43,13 +28,12 @@ a {
 }
 
 .room_item {
-    position: relative;
+    display: flex;
+    margin-bottom: 10px;
 }
 
 .room_info {
-    position: absolute;
-    top: 30px;
-    left: 300px;
+    margin-top: 15px;
 }
 
 .room_info .name {
@@ -63,6 +47,7 @@ a {
     background-size: auto 250px;
     background-position: 50% 50%;
     background-repeat: no-repeat;
+    margin: 0 25px;
 }
 
 .date li:first-child {
@@ -75,4 +60,65 @@ a {
 
 .color {
     color: #f2074c;
+}
+
+button {
+    border: none;
+    background-color: #f2074c;
+    color: white;
+    border-radius: 2px;
+}
+
+.modifyDateBtn {
+    margin-top: 42px;
+    border: none;
+    background-color: #f2074c;
+    color: white;
+    border-radius: 2px;
+}
+
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 4;
+}
+
+.modal__overlay {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.22);
+}
+
+.modal__content {
+    position: relative;
+    padding: 50px;
+    border-radius: 2px;
+    text-align: center;
+    background-color: white;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+
+.datepicker {
+    padding: 1em 1.5em;
+    font-size: 1.2em;
+    border-width: 0;
+}
+
+.datepicker:focus {
+    outline: none;
+}
+
+input[type=date]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
 }

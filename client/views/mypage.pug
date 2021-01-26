@@ -1,0 +1,42 @@
+doctype html
+html(lang="ko")
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+        link(rel='stylesheet' href='https://use.fontawesome.com/releases/v5.9.0/css/all.css')
+        link(href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet")
+        link(rel='stylesheet' href='../pugcss/mypage.css')
+        title 예약페이지
+
+    body
+        include header
+
+        main
+            div.container
+                ul.room_group_list
+                    each val, index in allRooms
+                        li.room_reservation_item
+                            div.room_item
+                                div.img(style=`background-image: url(${val.MOTEL_IMAGE ? val.MOTEL_IMAGE : val.HOTEL_IMAGE});`)
+                                div.room_info
+                                    div.name
+                                        span #{val.MOTEL_NAME ? val.MOTEL_NAME : val.HOTEL_NAME }
+                                    ul.date
+                                        li
+                                            span.color checkIn
+                                            span #{val.checkIn}
+                                        li
+                                            span.color checkOut
+                                            span #{val.checkOut}
+                                    button.modifyDateBtn 날짜 수정
+        form(action='/api/reservation/updateReservationDates' method='post')
+            div.modal.hidden
+                div.modal__overlay
+                div.modal__content
+                    input.datepicker(type='date' id='checkIn' name='sel_date')
+                    input.datepicker(type='date' id='checkOut' name='sel_date2')
+                    input(type='hidden' name='roomType' id='roomType')
+                    button(type='submit') 바꾸기
+                    button(type='button') 닫기
+        script(src='../js/modifyDate.js')

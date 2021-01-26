@@ -1,12 +1,12 @@
 extends layout
 
 block head
-    link(rel="stylesheet" href="../pugcss/hotel.css")
-    title 야!여기어때 || 호텔
+    link(rel="stylesheet" href="../pugcss/motel.css")
+    title 야!여기어때 || 모텔
 
 block roomType
-    a(href="/pug/hotel")
-        div.sub__top-title HOTEL
+    a(href="/motel")
+        div.sub__top-title MOTEL
 
 block category
     mixin filter(i, category, text)
@@ -17,20 +17,18 @@ block category
                     li
                         input(type='checkbox' id=val.FILTER_TMINO value=val.FILTER_ID name=text)
                         label(for=val.FILTER_TMINO class='label_chk') #{val.FILTER_OPTION}
-    +filter(1, category1, 'category1')
-    +filter(3, category2, 'category2')
-    +filter(13, category3, 'category3')
-    +filter(23, category4, 'category4')
+    +filter(0, category1, 'category1')
+    +filter(2, category2, 'category2')
+    +filter(12, category3, 'category3')
+    +filter(19, category4, 'category4')
 
 block roomList
-    each val in hotel
-        div.img(style=`background-image: url(${val.HOTEL_IMAGE});`)
+    each val in motel
+        div.img(style=`background-image: url(${val.MOTEL_IMAGE});`)
             if authorized && selectedDate.length > 0
                 button.reservationBtn(type='button') 예약하기
             div.content
                 div.container
-                    span #{val.HOTEL_NAME}
-                    span #{val.HOTEL_PRICE}
-
-
-
+                    span #{val.MOTEL_NAME}
+                    span #{val.MOTEL_RENTPRICE}
+                    span #{val.MOTEL_ACCOMMOPRICE}
