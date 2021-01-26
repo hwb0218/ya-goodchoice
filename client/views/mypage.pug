@@ -18,6 +18,7 @@ html(lang="ko")
                     each val, index in allRooms
                         li.room_reservation_item
                             div.room_item
+                                input.roomType(type='hidden' value=`${val.ROOM_TYPE}`)
                                 div.img(style=`background-image: url(${val.MOTEL_IMAGE ? val.MOTEL_IMAGE : val.HOTEL_IMAGE});`)
                                 div.room_info
                                     div.name

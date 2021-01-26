@@ -211,14 +211,14 @@ const getCheckInOut = (groupedRoom) => {
 
 app.get('/mypage', (req, res) => {
     const token = req.session.auth;
-    console.log(token);
-    const hotelListQuery = 'SELECT HOTEL_NAME, HOTEL_IMAGE FROM hotel WHERE HOTEL_ID IN (SELECT HOTEL_ID FROM hotel_reservation WHERE USER_ID IN (SELECT user.id FROM user WHERE token = ?))';
-    const motelListQuery = 'SELECT MOTEL_NAME, MOTEL_IMAGE FROM motel WHERE MOTEL_ID IN (SELECT MOTEL_ID FROM motel_reservation WHERE USER_ID IN (SELECT user.id FROM user WHERE token = ?))';
+    const hotelListQuery = 'SELECT HOTEL_NAME, HOTEL_IMAGE, ROOM_TYPE FROM hotel WHERE HOTEL_ID IN (SELECT HOTEL_ID FROM hotel_reservation WHERE USER_ID IN (SELECT user.id FROM user WHERE token = ?))';
+    const motelListQuery = 'SELECT MOTEL_NAME, MOTEL_IMAGE, ROOM_TYPE FROM motel WHERE MOTEL_ID IN (SELECT MOTEL_ID FROM motel_reservation WHERE USER_ID IN (SELECT user.id FROM user WHERE token = ?))';
     const getDatesOfHotel = 'SELECT RESERVATION_DATE, HOTEL_ID FROM hotel_reservation WHERE USER_ID IN (SELECT user.id FROM user WHERE token = ?)';
     const getDatesOfMotel = 'SELECT RESERVATION_DATE, MOTEL_ID FROM motel_reservation WHERE USER_ID IN (SELECT user.id FROM user WHERE token = ?)';
     database.query(hotelListQuery, [token], (err, hotelList) => {
         database.query(motelListQuery, [token], (err, motelList) => {
             const allRooms = motelList.concat(hotelList);
+            console.log(allRooms);
             database.query(getDatesOfHotel, [token], (err, hotelReservationDate) => {
                 const groupedHotel = groupBy(hotelReservationDate, 'HOTEL_ID');
                 const hotelCheckInOut = getCheckInOut(groupedHotel);
