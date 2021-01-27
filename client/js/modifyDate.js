@@ -1,28 +1,23 @@
 // const Axios = require('axios');
 const roomType = document.querySelector('#roomType');
-const modifyDateBtns = document.querySelectorAll('.modifyDateBtn');
+const ul = document.querySelector('.room_group_list');
 const closeBtn = document.querySelector('.modal__content button:last-child');
 const modal = document.querySelector('.modal');
 
-const openModal = () => {
-    modal.classList.remove('hidden');
-    roomType.value
-}
-
 const closeModal = () => {
     modal.classList.add('hidden');
+    roomType.removeAttribute('value');
 }
+closeBtn.addEventListener('click', closeModal);
 
-Array.from(modifyDateBtns).forEach((btn, i) => {
-    btn.addEventListener('click', openModal)
-    btn.value = i + 1;
-})
+const handleClick = (e) => {
+    const target = e.target;
+    if (target.className != 'modifyDateBtn') return;
+    modal.classList.remove('hidden');
+    const roomTypeFromDb = target.parentNode.parentNode.querySelector('input').value;
+    roomType.value = roomTypeFromDb;
+}
+ul.addEventListener('click', handleClick);
 
-closeBtn.addEventListener('click', closeModal)
 
-// const handleDateBtn = (e) => {
-//     console.log(e.target);
-// }
-//
-// modifyDateBtn.addEventListener('click', handleDateBtn)
 

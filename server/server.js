@@ -218,7 +218,6 @@ app.get('/mypage', (req, res) => {
     database.query(hotelListQuery, [token], (err, hotelList) => {
         database.query(motelListQuery, [token], (err, motelList) => {
             const allRooms = motelList.concat(hotelList);
-            console.log(allRooms);
             database.query(getDatesOfHotel, [token], (err, hotelReservationDate) => {
                 const groupedHotel = groupBy(hotelReservationDate, 'HOTEL_ID');
                 const hotelCheckInOut = getCheckInOut(groupedHotel);
@@ -227,6 +226,7 @@ app.get('/mypage', (req, res) => {
                     const motelCheckInOut = getCheckInOut(groupedMotel);
                     const allRoomsCheckInOut = motelCheckInOut.concat(hotelCheckInOut);
                     const arrayToObj = allRoomsCheckInOut.map(([checkIn, checkOut]) => ({checkIn, checkOut}));
+                    console.log(allRooms);
                     allRooms.forEach((x, i) => {
                         x.checkIn = arrayToObj[i].checkIn;
                         x.checkOut = arrayToObj[i].checkOut;

@@ -18,9 +18,6 @@ const reservation = () => {
     form.setAttribute('action', '/api/users/reservation');
 }
 
-const closeModal = () => {
-    modal.classList.add('hidden');
-}
 
 Array.from(reservationBtn).forEach((btn, i) => {
     btn.addEventListener('click', openModal)
@@ -28,5 +25,9 @@ Array.from(reservationBtn).forEach((btn, i) => {
 });
 
 okBtn.addEventListener('click', reservation);
+
+const closeModal = () => {
+    modal.classList.add('hidden');
+}
 closeBtn.addEventListener('click', closeModal);
 
