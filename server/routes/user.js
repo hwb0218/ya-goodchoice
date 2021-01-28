@@ -5,7 +5,7 @@ const saltRounds = 10;
 const { database } = require('../lib/database');
 const User = require('../lib/User');
 const filter = require('../lib/filter');
-const reservation = require('../lib/reservation');
+const { reservation } = require('../lib/reservation');
 const { auth } = require('../middleware/auth');
 
 router.get('/reservation', (req, res) => {
@@ -14,7 +14,7 @@ router.get('/reservation', (req, res) => {
     const checkOut = selectedDate[1];
     const id = req.query.id;
     database.query(`SELECT user.id FROM user WHERE token = ?`, [req.session.auth], (err ,data) => {
-        const values = reservation.reservation(checkIn, checkOut, id, data[0].id);
+        const values = reservation(checkIn, checkOut, id, data[0].id);
         const roomType = req.query.roomType;
         const roomTypeUpperCase = roomType.toUpperCase();
         database.query(`INSERT INTO ${roomType}_reservation (RESERVATION_DATE, ${roomTypeUpperCase}_ID, USER_ID) VALUES ?`, [values], (err, result) => {

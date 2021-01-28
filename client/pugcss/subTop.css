@@ -11,11 +11,7 @@
 .sub__top-container {
     display: flex;
     align-items: center;
-    /* margin-left: 380px; */
     justify-content: space-around;
-}
-
-.wrapper {
 }
 
 .sub__top-title {

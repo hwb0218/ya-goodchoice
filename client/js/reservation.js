@@ -18,9 +18,8 @@ const reservation = () => {
     form.setAttribute('action', '/api/users/reservation');
 }
 
-
 Array.from(reservationBtn).forEach((btn, i) => {
-    btn.addEventListener('click', openModal)
+    btn.addEventListener('click', openModal);
     btn.value = i + 1;
 });
 

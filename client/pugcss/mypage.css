@@ -98,7 +98,8 @@ button {
 
 .modal__content {
     position: relative;
-    padding: 50px;
+    padding: 40px;
+    width: 300px;
     border-radius: 2px;
     text-align: center;
     background-color: white;
@@ -106,13 +107,20 @@ button {
 }
 
 .datepicker {
-    padding: 1em 1.5em;
+    width: 100%;
+    padding: 0.8em 1.5em 0 1.5em;
     font-size: 1.2em;
     border-width: 0;
 }
 
 .datepicker:focus {
     outline: none;
+}
+
+.btn_wrap {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 0.8em;
 }
 
 input[type=date]::-webkit-calendar-picker-indicator {

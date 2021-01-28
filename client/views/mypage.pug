@@ -19,6 +19,7 @@ html(lang="ko")
                         li.room_reservation_item
                             div.room_item
                                 input.roomType(type='hidden' value=`${val.ROOM_TYPE}`)
+                                input.roomId(type='hidden' value=`${val.MOTEL_ID ? val.MOTEL_ID : val.HOTEL_ID}`)
                                 div.img(style=`background-image: url(${val.MOTEL_IMAGE ? val.MOTEL_IMAGE : val.HOTEL_IMAGE});`)
                                 div.room_info
                                     div.name
@@ -35,9 +36,12 @@ html(lang="ko")
             div.modal.hidden
                 div.modal__overlay
                 div.modal__content
-                    input.datepicker(type='date' id='checkIn' name='sel_date')
+                    input.datepicker(type='date' id='checkIn' name='sel_date' min='2020-10-01')
                     input.datepicker(type='date' id='checkOut' name='sel_date2')
                     input(type='hidden' name='roomType' id='roomType')
-                    button(type='submit') 바꾸기
-                    button(type='button') 닫기
+                    input(type='hidden' name='roomId' id='roomId')
+                    div.btn_wrap
+                        button(type='submit') 바꾸기
+                        button(type='button') 닫기
         script(src='../js/modifyDate.js')
+        script(src='../js/date.js')
