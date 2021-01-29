@@ -15,7 +15,7 @@ const openModal = (e) => {
 }
 
 const reservation = () => {
-    form.setAttribute('action', '/api/users/reservation');
+    form.setAttribute('action', '/api/reservation/toMakeAReservation');
 }
 
 Array.from(reservationBtn).forEach((btn, i) => {

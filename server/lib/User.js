@@ -1,4 +1,4 @@
-const { database } = require('./database');
+const { connection } = require('./database');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -17,7 +17,7 @@ exports.generateToken = function (users, cb) {
     users.map(user => {
         const token = jwt.sign(user.email, 'secretToken');
         user.token = token;
-        database.query(`UPDATE user SET token = ? where email = ?`, [token, user.email], (err, x) => {
+        connection.query(`UPDATE user SET token = ? where email = ?`, [token, user.email], (err, x) => {
           if (err) {
               return cb(err);
           }
@@ -29,7 +29,7 @@ exports.generateToken = function (users, cb) {
 exports.findByToken = function (users, token, cb) {
     jwt.verify(token, 'secretToken', function (err, decoded) {
         users.map(user => {
-           database.query(`SELECT * FROM user WHERE email = ? AND token = ?`, [decoded, user.token], (err, user) => {
+            connection.query(`SELECT * FROM user WHERE email = ? AND token = ?`, [decoded, user.token], (err, user) => {
                if (err) {
                    return cb(err);
                }
