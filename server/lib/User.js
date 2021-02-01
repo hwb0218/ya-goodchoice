@@ -17,11 +17,12 @@ exports.generateToken = function (users, cb) {
     users.map(user => {
         const token = jwt.sign(user.email, 'secretToken');
         user.token = token;
-        connection.query(`UPDATE user SET token = ? where email = ?`, [token, user.email], (err, x) => {
-          if (err) {
-              return cb(err);
-          }
-          cb(null, user);
+        connection.getConnection().then(conn => {
+            return conn.query('UPDATE user SET token = ? where email = ?', [token, user.email])
+                .then(([rows, fields]) => {
+                    cb(null, user);
+                }).catch(err => cb(err));
+            conn.release();
         });
     });
 }
@@ -29,12 +30,13 @@ exports.generateToken = function (users, cb) {
 exports.findByToken = function (users, token, cb) {
     jwt.verify(token, 'secretToken', function (err, decoded) {
         users.map(user => {
-            connection.query(`SELECT * FROM user WHERE email = ? AND token = ?`, [decoded, user.token], (err, user) => {
-               if (err) {
-                   return cb(err);
-               }
-               cb(null, user[0]);
-           });
+            connection.getConnection().then(conn => {
+                return conn.query('SELECT * FROM user WHERE email = ? AND token = ?', [decoded, user.token])
+                    .then(([rows, fields]) => {
+                        cb(null, user[0]);
+                    }).catch(err => cb(err));
+                conn.release();
+            });
         });
     });
 }

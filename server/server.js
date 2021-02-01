@@ -237,7 +237,7 @@ const getCheckInOut = (groupedRoom) => {
     });
 }
 
-// promise or async , await 사용
+// Left Join 해서 쿼리 줄이기
 app.get('/myPage', (req, res) => {
     const token = req.session.auth;
     const hotelListQuery = 'SELECT HOTEL_ID, HOTEL_NAME, HOTEL_IMAGE, ROOM_TYPE FROM hotel WHERE HOTEL_ID IN (SELECT HOTEL_ID FROM hotel_reservation WHERE USER_ID IN (SELECT user.id FROM user WHERE token = ?))';
@@ -273,7 +273,10 @@ app.get('/myPage', (req, res) => {
                     x.checkOut = arrayToObj[i].checkOut;
                 });
                 isLoggedIn(req, res, 'myPage', { allRooms });
-            });
+            })
+            .catch(err => {
+                console.log(err);
+            })
         conn.release();
     });
 });

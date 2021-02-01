@@ -1,20 +1,19 @@
-const { database } = require('../lib/database');
-const User = require('../lib/User');
+const { connection } = require('../lib/database');
 
 const auth = (req, res, next) => {
     const token = req.session.auth;
-    database.query(`SELECT * FROM user WHERE token = ?`, [token], (err, users) => {
-        User.findByToken(users, token, (err, user) => {
-            if (err) {
-                throw err;
-            }
-            if (!user) {
-                return res.json({ isAuth: false, error: true });
-            }
-            req.token = token;
-            req.user = user;
-            next();
-        });
+    connection.getConnection().then(conn => {
+        return conn.query('SELECT * FROM user WHERE token = ?', [token])
+            .then(([user, fields]) => {
+                if (!user) {
+                    return res.json({ isAuth: false, error: true });
+                }
+                req.token = token;
+                req.user = user;
+                next();
+            }).catch(err => {
+                throw err
+            });
     });
 }
 
