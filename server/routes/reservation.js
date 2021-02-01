@@ -33,9 +33,10 @@ router.post('/updateReservationDates',(req, res) => {
     const insertQuery = `INSERT INTO ${roomType}_reservation (RESERVATION_DATE, ${roomTypeUpperCase}_ID, USER_ID) VALUES ?`
     // INSERT INTO QUERY 작업하기
     connection.getConnection().then(conn => {
-        return conn.query(deleteQuery, [roomId, token]);
-    }).then(([firstRows, fields]) => {
-    }).catch(err => {
+        return conn.query(deleteQuery, [roomId, token])
+            .then(([firstRows, fields]) => {
+
+            }).catch(err => console.log(err));
     });
     // connection.query(deleteQuery, [roomId, token], (err, result1) => {
     //     // const values = reservation(checkIn, checkOut, roomId)
