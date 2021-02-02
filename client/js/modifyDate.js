@@ -1,7 +1,6 @@
 // const Axios = require('axios');
 const ul = document.querySelector('.room_group_list');
-const closeBtn = document.querySelector('.modal__content button:last-child');
-console.log(closeBtn);
+const [firstCloseBtn, secondCloseBtn] = document.querySelectorAll('.modal__content button:last-child');
 
 const modalContent = (e) => {
     const form = document.querySelector('form');
@@ -42,4 +41,6 @@ const closeModal = () => {
     roomType.removeAttribute('value');
     roomId.removeAttribute('value');
 }
-closeBtn.addEventListener('click', closeModal);
+// 이 부분 이벤트 위임 처리하기
+firstCloseBtn.addEventListener('click', closeModal);
+secondCloseBtn.addEventListener('click', closeModal);
