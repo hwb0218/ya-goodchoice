@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
             const category3 = filter.findACategory(filterData, '객실 내 시설');
             const category4 = filter.findACategory(filterData, '기타');
 
-            const path = req.path;
+            const path = req.baseUrl;
             const checkedOption = filter.getCategory(req, 'category');
             const checked = filter.getObjValues(req, 'category');
             const price = filter.getObjValues(req, 'price');
@@ -36,12 +36,12 @@ router.get('/', (req, res) => {
             const replacePrice = priceQuery.replace('WHERE', 'AND');
 
             query = [...query, defaultQuery];
-            if (!price.length) {
+            if (path === '/hotel') {
                 render = {...render, price};
                 return conn.query(query.join(''), params)
                     .then(([hotel, fields]) => {
                         render['hotel'] = hotel;
-                        const endPoint = req.path;
+                        const endPoint = req.baseUrl;
                         req.session.returnTo = endPoint;
                         if (req.session.auth) {
                             render['authorized'] = req.session.auth;
@@ -72,21 +72,31 @@ router.get('/', (req, res) => {
                 query = [...query, sq];
                 render = {...render, sort};
             }
-
-            connection.query(query.join(''), params, (err, hotel) => {
-                if (err) {
-                    res.send(err);
-                }
+            conn.query(query.join(''), params).then(([hotel, fields]) => {
                 render['hotel'] = hotel;
-                const endPoint = req.path;
+                const endPoint = req.baseUrl;
                 req.session.returnTo = endPoint;
                 if (req.session.auth) {
                     render['authorized'] = req.session.auth;
                 }
                 req.session.save(function () {
-                    res.render('motel', render);
+                    res.render('hotel', render);
                 });
-            });
+            })
+            // connection.query(query.join(''), params, (err, hotel) => {
+            //     if (err) {
+            //         res.send(err);
+            //     }
+            //     render['hotel'] = hotel;
+            //     const endPoint = req.path;
+            //     req.session.returnTo = endPoint;
+            //     if (req.session.auth) {
+            //         render['authorized'] = req.session.auth;
+            //     }
+            //     req.session.save(function () {
+            //         res.render('motel', render);
+            //     });
+            // });
         });
         conn.release();
     });

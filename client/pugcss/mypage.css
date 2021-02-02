@@ -24,7 +24,8 @@ a {
 }
 
 .room_reservation_item + .room_reservation_item {
-    border-top: 1px solid #eee;
+    border-top: 2.5px solid #eee;
+    padding-top: 10px;
 }
 
 .room_item {
@@ -33,6 +34,10 @@ a {
 }
 
 .room_info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
     margin-top: 15px;
 }
 
@@ -69,12 +74,13 @@ button {
     border-radius: 2px;
 }
 
-.modifyDateBtn {
-    margin-top: 42px;
-    border: none;
-    background-color: #f2074c;
-    color: white;
-    border-radius: 2px;
+.room_info .btn_wrap {
+    display: flex;
+    flex-direction: column;
+}
+
+.room_info .btn_wrap button:last-child {
+    margin-top: 5px;
 }
 
 .modal {
@@ -119,7 +125,7 @@ button {
 
 .btn_wrap {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     margin-top: 0.8em;
 }
 

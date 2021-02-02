@@ -18,7 +18,7 @@ router.get('/toMakeAReservation', (req, res) => {
                 return conn.query(insertQuery, [values]);
             }).then(([result, fields]) => {
                 res.status(200).redirect('/myPage');
-        });
+            });
         conn.release();
     });
 });
@@ -30,21 +30,35 @@ router.post('/updateReservationDates',(req, res) => {
     const roomTypeUpperCase = roomType.toUpperCase();
     const token = req.session.auth;
     const deleteQuery = `DELETE FROM ${roomType}_reservation WHERE ${roomTypeUpperCase}_ID = ? AND USER_ID IN (SELECT user.id FROM user WHERE token =?)`;
+    const selectQuery = 'SELECT user.id FROM user WHERE token = ?';
     const insertQuery = `INSERT INTO ${roomType}_reservation (RESERVATION_DATE, ${roomTypeUpperCase}_ID, USER_ID) VALUES ?`
     // INSERT INTO QUERY 작업하기
     connection.getConnection().then(conn => {
         return conn.query(deleteQuery, [roomId, token])
             .then(([firstRows, fields]) => {
-
-            }).catch(err => console.log(err));
+                return conn.query(selectQuery, [req.session.auth])
+            }).then(([userId, fields]) => {
+                const values = reservation(checkIn, checkOut, roomId, userId[0].id);
+                return conn.query(insertQuery, [values]);
+            }).then(([result, fields]) => {
+                res.status(200).redirect('/myPage');
+            }).catch(err => console.error(err));
+        conn.release();
     });
-    // connection.query(deleteQuery, [roomId, token], (err, result1) => {
-    //     // const values = reservation(checkIn, checkOut, roomId)
-    //     // connection.query(insertQuery, [values], (err, result2) => {
-    //     //
-    //     // })
-    //     res.status(200).redirect('/myPage');
-    // });
+});
+
+router.post('/reservationCancellation', (req, res) => {
+    const { roomId, roomType } = req.body;
+    const roomTypeUpperCase = roomType.toUpperCase();
+    const token = req.session.auth;
+    const deleteQuery = `DELETE FROM ${roomType}_reservation WHERE ${roomTypeUpperCase}_ID = ? AND USER_ID IN (SELECT user.id FROM user WHERE token =?)`;
+    connection.getConnection().then(conn => {
+        return conn.query(deleteQuery, [roomId, token])
+            .then(([result, fields]) => {
+                res.status(200).redirect('/myPage');
+            }).catch(err => console.error(err));
+        conn.release();
+    });
 });
 
 module.exports = router;

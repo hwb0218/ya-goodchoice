@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { connection } = require('../lib/database');
 const { groupBy, getCheckInOut } = require('../lib/myPageOptions');
-
+// Left Join 후 query 간소화 하기
 router.get('/', (req, res) => {
     const token = req.session.auth;
     const hotelListQuery = 'SELECT HOTEL_ID, HOTEL_NAME, HOTEL_IMAGE, ROOM_TYPE FROM hotel WHERE HOTEL_ID IN (SELECT HOTEL_ID FROM hotel_reservation WHERE USER_ID IN (SELECT user.id FROM user WHERE token = ?))';

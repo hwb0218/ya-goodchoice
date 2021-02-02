@@ -18,8 +18,6 @@ html(lang="ko")
                     each val, index in allRooms
                         li.room_reservation_item
                             div.room_item
-                                input.roomType(type='hidden' value=`${val.ROOM_TYPE}`)
-                                input.roomId(type='hidden' value=`${val.MOTEL_ID ? val.MOTEL_ID : val.HOTEL_ID}`)
                                 div.img(style=`background-image: url(${val.MOTEL_IMAGE ? val.MOTEL_IMAGE : val.HOTEL_IMAGE});`)
                                 div.room_info
                                     div.name
@@ -31,7 +29,9 @@ html(lang="ko")
                                         li
                                             span.color checkOut
                                             span #{val.checkOut}
-                                    button.modifyDateBtn 날짜 수정
+                                    div.btn_wrap
+                                        button(data-room-type=`${val.ROOM_TYPE}` data-room-id=`${val.MOTEL_ID ? val.MOTEL_ID : val.HOTEL_ID}`).modifyDateBtn 날짜 수정
+                                        button(data-room-type=`${val.ROOM_TYPE}` data-room-id=`${val.MOTEL_ID ? val.MOTEL_ID : val.HOTEL_ID}`) 예약취소
         form(action='/api/reservation/updateReservationDates' method='post')
             div.modal.hidden
                 div.modal__overlay
@@ -43,5 +43,5 @@ html(lang="ko")
                     div.btn_wrap
                         button(type='submit') 바꾸기
                         button(type='button') 닫기
-        script(src='../js/modifyDate.js')
         script(src='../js/date.js')
+        script(src='../js/modifyDate.js')

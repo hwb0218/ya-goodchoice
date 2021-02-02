@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
             const category3 = filter.findACategory(filterData, '스파시설');
             const category4 = filter.findACategory(filterData, '놀이시설');
 
-            const path = req.path;
+            const path = req.baseUrl;
             const checkedOption = filter.getCategory(req, 'category');
             const checked = filter.getObjValues(req, 'category');
             const price = filter.getObjValues(req, 'price');
@@ -36,12 +36,12 @@ router.get('/', (req, res) => {
 
             query = [...query, defaultQuery];
 
-            if (!price.length) {
+            if (path === '/motel') {
                 render = {...render, price};
                 return conn.query(query.join(''), params)
                     .then(([motel, fields]) => {
                         render['motel'] = motel;
-                        const endPoint = req.path;
+                        const endPoint = req.baseUrl;
                         req.session.returnTo = endPoint;
                         if (req.session.auth) {
                             render['authorized'] = req.session.auth;
@@ -74,7 +74,7 @@ router.get('/', (req, res) => {
             return conn.query(query.join(''), params)
                 .then(([motel, fields]) => {
                     render['motel'] = motel;
-                    const endPoint = req.path;
+                    const endPoint = req.baseUrl;
                     req.session.returnTo = endPoint;
                     if (req.session.auth) {
                         render['authorized'] = req.session.auth;
