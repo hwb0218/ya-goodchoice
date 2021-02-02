@@ -37,13 +37,14 @@ router.get('/', (req, res) => {
                     x.checkIn = arrayToObj[i].checkIn;
                     x.checkOut = arrayToObj[i].checkOut;
                 });
+                let render = { allRooms };
                 const endPoint = req.path;
                 req.session.returnTo = endPoint;
                 if (req.session.auth) {
-                    allRooms['authorized'] = req.session.auth;
+                    render['authorized'] = req.session.auth;
                 }
                 req.session.save(function () {
-                    res.render('myPage', { allRooms });
+                    res.render('myPage', render);
                 });
             })
             .catch(err => {

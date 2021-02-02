@@ -11,37 +11,40 @@ html(lang="ko")
 
     body
         include header
-
-        main
-            div.container
-                ul.room_group_list
-                    each val, index in allRooms
-                        li.room_reservation_item
-                            div.room_item
-                                div.img(style=`background-image: url(${val.MOTEL_IMAGE ? val.MOTEL_IMAGE : val.HOTEL_IMAGE});`)
-                                div.room_info
-                                    div.name
-                                        span #{val.MOTEL_NAME ? val.MOTEL_NAME : val.HOTEL_NAME }
-                                    ul.date
-                                        li
-                                            span.color checkIn
-                                            span #{val.checkIn}
-                                        li
-                                            span.color checkOut
-                                            span #{val.checkOut}
-                                    div.btn_wrap
-                                        button(data-room-type=`${val.ROOM_TYPE}` data-room-id=`${val.MOTEL_ID ? val.MOTEL_ID : val.HOTEL_ID}`).modifyDateBtn 날짜 수정
-                                        button(data-room-type=`${val.ROOM_TYPE}` data-room-id=`${val.MOTEL_ID ? val.MOTEL_ID : val.HOTEL_ID}`) 예약취소
-        form(action='/api/reservation/updateReservationDates' method='post')
+        form(method='post')
+            input(type='hidden' name='roomType' id='roomType')
+            input(type='hidden' name='roomId' id='roomId')
+            main
+                div.container
+                    ul.room_group_list
+                        each val, index in allRooms
+                            li.room_reservation_item
+                                div.room_item
+                                    div.img(style=`background-image: url(${val.MOTEL_IMAGE ? val.MOTEL_IMAGE : val.HOTEL_IMAGE});`)
+                                    div.room_info
+                                        div.name
+                                            span #{val.MOTEL_NAME ? val.MOTEL_NAME : val.HOTEL_NAME }
+                                        ul.date
+                                            li
+                                                span.color checkIn
+                                                span #{val.checkIn}
+                                            li
+                                                span.color checkOut
+                                                span #{val.checkOut}
+                                        div.btn_wrap
+                                            button(type='button' data-room-type=`${val.ROOM_TYPE}` data-room-id=`${val.MOTEL_ID ? val.MOTEL_ID : val.HOTEL_ID}`).modifyDateBtn 날짜 수정
+                                            button(type='button' data-room-type=`${val.ROOM_TYPE}` data-room-id=`${val.MOTEL_ID ? val.MOTEL_ID : val.HOTEL_ID}`).reservationCancellationBtn 예약취소
             div.modal.hidden
                 div.modal__overlay
-                div.modal__content
+                div.modal__content.hidden
                     input.datepicker(type='date' id='checkIn' name='sel_date' min='2020-10-01')
                     input.datepicker(type='date' id='checkOut' name='sel_date2')
-                    input(type='hidden' name='roomType' id='roomType')
-                    input(type='hidden' name='roomId' id='roomId')
                     div.btn_wrap
                         button(type='submit') 바꾸기
                         button(type='button') 닫기
+                div.modal__content.hidden
+                    h1 예약을 취소하시겠습니까?
+                    button 예
+                    button(type='button') 아니오
         script(src='../js/date.js')
         script(src='../js/modifyDate.js')

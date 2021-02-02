@@ -39,6 +39,7 @@ router.post('/updateReservationDates',(req, res) => {
                 return conn.query(selectQuery, [req.session.auth])
             }).then(([userId, fields]) => {
                 const values = reservation(checkIn, checkOut, roomId, userId[0].id);
+                console.log(values);
                 return conn.query(insertQuery, [values]);
             }).then(([result, fields]) => {
                 res.status(200).redirect('/myPage');
