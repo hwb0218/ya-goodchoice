@@ -7,6 +7,7 @@ const date = require('../lib/date');
 router.get('/', (req, res) => {
     connection.getConnection().then(conn => {
         return conn.query('SELECT * FROM motel_filter').then(([filterData, fields]) => {
+            conn.release();
             let query = [];
             let params = [];
             const category1 = filter.findACategory(filterData, '예약');
@@ -40,6 +41,7 @@ router.get('/', (req, res) => {
                 render = {...render, price};
                 return conn.query(query.join(''), params)
                     .then(([motel, fields]) => {
+                        conn.release();
                         render['motel'] = motel;
                         const endPoint = req.baseUrl;
                         req.session.returnTo = endPoint;
@@ -50,7 +52,6 @@ router.get('/', (req, res) => {
                             res.render('motel', render);
                         });
                     });
-                conn.release();
             }
             render = {...render, price};
             if (selectedDate.length) {
@@ -73,6 +74,7 @@ router.get('/', (req, res) => {
             }
             return conn.query(query.join(''), params)
                 .then(([motel, fields]) => {
+                    conn.release();
                     render['motel'] = motel;
                     const endPoint = req.baseUrl;
                     req.session.returnTo = endPoint;
@@ -83,8 +85,8 @@ router.get('/', (req, res) => {
                         res.render('motel', render);
                     });
                 });
+            conn.release();
         });
-        conn.release();
     });
 });
 

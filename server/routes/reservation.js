@@ -14,11 +14,13 @@ router.get('/toMakeAReservation', (req, res) => {
     connection.getConnection().then(conn => {
         return conn.query(selectQuery, [req.session.auth])
             .then(([userId, fields]) => {
+                conn.release();
                 const values = reservation(checkIn, checkOut, id, userId[0].id);
                 return conn.query(insertQuery, [values]);
             }).then(([result, fields]) => {
+                conn.release();
                 res.status(200).redirect('/myPage');
-            });
+            });;
         conn.release();
     });
 });
@@ -36,8 +38,10 @@ router.post('/updateReservationDates',(req, res) => {
     connection.getConnection().then(conn => {
         return conn.query(deleteQuery, [roomId, token])
             .then(([firstRows, fields]) => {
+                conn.release();
                 return conn.query(selectQuery, [req.session.auth])
             }).then(([userId, fields]) => {
+                conn.release();
                 const values = reservation(checkIn, checkOut, roomId, userId[0].id);
                 return conn.query(insertQuery, [values]);
             }).then(([result, fields]) => {
@@ -55,6 +59,7 @@ router.post('/reservationCancellation', (req, res) => {
     connection.getConnection().then(conn => {
         return conn.query(deleteQuery, [roomId, token])
             .then(([result, fields]) => {
+                conn.release();
                 res.status(200).redirect('/myPage');
             }).catch(err => console.error(err));
         conn.release();

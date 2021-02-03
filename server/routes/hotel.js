@@ -7,6 +7,7 @@ const date = require('../lib/date');
 router.get('/', (req, res) => {
     connection.getConnection().then(conn => {
         return conn.query('SELECT * FROM hotel_filter').then(([filterData, fields]) => {
+            conn.release();
             let query = [];
             let params = [];
 
@@ -40,6 +41,7 @@ router.get('/', (req, res) => {
                 render = {...render, price};
                 return conn.query(query.join(''), params)
                     .then(([hotel, fields]) => {
+                        conn.release();
                         render['hotel'] = hotel;
                         const endPoint = req.baseUrl;
                         req.session.returnTo = endPoint;
@@ -50,7 +52,6 @@ router.get('/', (req, res) => {
                             res.render('hotel', render);
                         });
                     });
-                conn.release();
             }
 
             render = {...render, price};
@@ -72,33 +73,21 @@ router.get('/', (req, res) => {
                 query = [...query, sq];
                 render = {...render, sort};
             }
-            conn.query(query.join(''), params).then(([hotel, fields]) => {
-                render['hotel'] = hotel;
-                const endPoint = req.baseUrl;
-                req.session.returnTo = endPoint;
-                if (req.session.auth) {
-                    render['authorized'] = req.session.auth;
-                }
-                req.session.save(function () {
-                    res.render('hotel', render);
-                });
-            })
-            // connection.query(query.join(''), params, (err, hotel) => {
-            //     if (err) {
-            //         res.send(err);
-            //     }
-            //     render['hotel'] = hotel;
-            //     const endPoint = req.path;
-            //     req.session.returnTo = endPoint;
-            //     if (req.session.auth) {
-            //         render['authorized'] = req.session.auth;
-            //     }
-            //     req.session.save(function () {
-            //         res.render('motel', render);
-            //     });
-            // });
+            return conn.query(query.join(''), params)
+                .then(([hotel, fields]) => {
+                    conn.release();
+                    render['hotel'] = hotel;
+                    const endPoint = req.baseUrl;
+                    req.session.returnTo = endPoint;
+                    if (req.session.auth) {
+                        render['authorized'] = req.session.auth;
+                    }
+                    req.session.save(function () {
+                        res.render('hotel', render);
+                    });
+                })
+            conn.release();
         });
-        conn.release();
     });
 })
 

@@ -6,11 +6,11 @@ const modalContent = (e) => {
     const form = document.querySelector('form');
     const [firstModalContent, secondModalContent] = document.querySelectorAll('.modal__content');
     if (e.target.className === 'modifyDateBtn') {
-        const path = '/api/users/updateReservationDates';
+        const path = '/api/reservation/updateReservationDates';
         firstModalContent.classList.remove('hidden');
         form.setAttribute('action', path);
     } else if (e.target.className === 'reservationCancellationBtn') {
-        const path = '/api/users/reservationCancellation';
+        const path = '/api/reservation/reservationCancellation';
         secondModalContent.classList.remove('hidden');
         form.setAttribute('action', path);
     }

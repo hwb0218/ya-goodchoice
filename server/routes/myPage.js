@@ -13,21 +13,25 @@ router.get('/', (req, res) => {
     connection.getConnection().then(conn => {
         return conn.query(hotelListQuery, [token])
             .then(([firstRows, fields]) => {
+                conn.release();
                 hotelList = firstRows;
                 return conn.query(motelListQuery, [token])
             })
             .then(([secondRows, fields]) => {
+                conn.release()
                 motelList = secondRows;
                 allRooms = motelList.concat(hotelList);
                 return conn.query(getDatesOfHotel, [token])
             })
             .then(([thirdRows, fields]) => {
+                conn.release()
                 hotelReservationDate = thirdRows;
                 groupedHotel = groupBy(hotelReservationDate, 'HOTEL_ID');
                 hotelCheckInOut = getCheckInOut(groupedHotel);
                 return conn.query(getDatesOfMotel, [token])
             })
             .then(([fourthRows, fields]) => {
+                conn.release()
                 motelReservationDate = fourthRows;
                 const groupedMotel = groupBy(motelReservationDate, 'MOTEL_ID');
                 const motelCheckInOut = getCheckInOut(groupedMotel);
@@ -49,7 +53,7 @@ router.get('/', (req, res) => {
             })
             .catch(err => {
                 return res.status(400).json({ success: false, err });
-            });
+            })
         conn.release();
     });
 });
