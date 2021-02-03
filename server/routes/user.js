@@ -44,7 +44,6 @@ router.post('/login', (req, res) => {
                         return res.json({ loginSuccess: false, message: "비밀번호가 틀렸습니다."});
                     }
                     User.generateToken(users, function (err, user) {
-                        console.log(user);
                         if (err) {
                             return res.status(400).send(err);
                         }
