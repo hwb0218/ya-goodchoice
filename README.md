@@ -23,3 +23,6 @@
 
 ## 3. ERD 설계
 ![ERD](https://user-images.githubusercontent.com/52212226/108475000-7c0fac80-72d3-11eb-88e8-c38f49a868d6.PNG)
+
+## 4. 핵심 기능
+이 서비스의 핵심 기능은 사용자가 원하는 옵션, 날짜를 선택하고 숙소를 예약하는 기능입니다. 
