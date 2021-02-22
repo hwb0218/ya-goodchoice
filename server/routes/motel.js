@@ -14,8 +14,7 @@ router.get('/', (req, res) => {
             const category2 = filter.findACategory(filterData, '이색테마');
             const category3 = filter.findACategory(filterData, '스파시설');
             const category4 = filter.findACategory(filterData, '놀이시설');
-
-            const path = req.baseUrl;
+            const path = req.originalUrl;
             const checkedOption = filter.getCategory(req, 'category');
             const checked = filter.getObjValues(req, 'category');
             const price = filter.getObjValues(req, 'price');
@@ -52,6 +51,7 @@ router.get('/', (req, res) => {
                             res.render('motel', render);
                         });
                     });
+                return ;
             }
             render = {...render, price};
             if (selectedDate.length) {

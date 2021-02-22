@@ -9,7 +9,6 @@ const id = document.querySelector('#id');
 const openModal = (e) => {
     modal.classList.remove('hidden');
     const path = location.pathname.split('/')[1];
-    console.log(path);
     roomType.value = path;
     id.value = e.target.value;
 }

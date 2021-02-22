@@ -17,7 +17,7 @@ html(lang="ko")
             main
                 div.container
                     ul.room_group_list
-                        each val, index in allRooms
+                        each val, index in allList
                             li.room_reservation_item
                                 div.room_item
                                     div.img(style=`background-image: url(${val.MOTEL_IMAGE ? val.MOTEL_IMAGE : val.HOTEL_IMAGE});`)
@@ -27,10 +27,10 @@ html(lang="ko")
                                         ul.date
                                             li
                                                 span.color checkIn
-                                                span #{val.checkIn}
+                                                span #{val.CHECK_IN}
                                             li
                                                 span.color checkOut
-                                                span #{val.checkOut}
+                                                span #{val.CHECK_OUT}
                                         div.btn_wrap
                                             button(type='button' data-room-type=`${val.ROOM_TYPE}` data-room-id=`${val.MOTEL_ID ? val.MOTEL_ID : val.HOTEL_ID}`).modifyDateBtn 날짜 수정
                                             button(type='button' data-room-type=`${val.ROOM_TYPE}` data-room-id=`${val.MOTEL_ID ? val.MOTEL_ID : val.HOTEL_ID}`).reservationCancellationBtn 예약취소

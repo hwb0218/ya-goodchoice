@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
             const category3 = filter.findACategory(filterData, '객실 내 시설');
             const category4 = filter.findACategory(filterData, '기타');
 
-            const path = req.baseUrl;
+            const path = req.originalUrl;
             const checkedOption = filter.getCategory(req, 'category');
             const checked = filter.getObjValues(req, 'category');
             const price = filter.getObjValues(req, 'price');
@@ -52,6 +52,7 @@ router.get('/', (req, res) => {
                             res.render('hotel', render);
                         });
                     });
+                return ;
             }
 
             render = {...render, price};

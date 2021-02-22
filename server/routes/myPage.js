@@ -1,59 +1,34 @@
 const express = require('express');
 const router = express.Router();
 const { connection } = require('../lib/database');
-const { groupBy, getCheckInOut } = require('../lib/myPageOptions');
-// Left Join 후 query 간소화 하기
+const { getCheckInOut } = require('../lib/myPageOptions');
+
 router.get('/', (req, res) => {
     const token = req.session.auth;
-    const hotelListQuery = 'SELECT HOTEL_ID, HOTEL_NAME, HOTEL_IMAGE, ROOM_TYPE FROM hotel WHERE HOTEL_ID IN (SELECT HOTEL_ID FROM hotel_reservation WHERE USER_ID IN (SELECT user.id FROM user WHERE token = ?))';
-    const motelListQuery = 'SELECT MOTEL_ID, MOTEL_NAME, MOTEL_IMAGE, ROOM_TYPE FROM motel WHERE MOTEL_ID IN (SELECT MOTEL_ID FROM motel_reservation WHERE USER_ID IN (SELECT user.id FROM user WHERE token = ?))';
-    const getDatesOfHotel = 'SELECT RESERVATION_DATE, HOTEL_ID FROM hotel_reservation WHERE USER_ID IN (SELECT user.id FROM user WHERE token = ?)';
-    const getDatesOfMotel = 'SELECT RESERVATION_DATE, MOTEL_ID FROM motel_reservation WHERE USER_ID IN (SELECT user.id FROM user WHERE token = ?)';
-    let hotelList, motelList, hotelReservationDate, motelReservationDate, allRooms, groupedHotel, hotelCheckInOut;
+    const hotel = 'SELECT HOTEL_NAME, HOTEL_IMAGE, ROOM_TYPE, MIN(RESERVATION_DATE) AS CHECK_IN, MAX(RESERVATION_DATE) AS CHECK_OUT FROM hotel_reservation LEFT JOIN hotel ON hotel_reservation.HOTEL_ID = hotel.HOTEL_ID WHERE USER_ID IN (SELECT user.id FROM user WHERE token = ?) GROUP BY GROUP_OF_ROOMS';
+    const motel = 'SELECT MOTEL_NAME, MOTEL_IMAGE, ROOM_TYPE, MIN(RESERVATION_DATE) AS CHECK_IN, MAX(RESERVATION_DATE) AS CHECK_OUT FROM motel_reservation LEFT JOIN motel ON motel_reservation.MOTEL_ID = motel.MOTEL_ID WHERE USER_ID IN (SELECT user.id FROM user WHERE token = ?) GROUP BY GROUP_OF_ROOMS';
+    let hotelList, motelList;
     connection.getConnection().then(conn => {
-        return conn.query(hotelListQuery, [token])
+        return conn.query(hotel, [token])
             .then(([firstRows, fields]) => {
                 conn.release();
-                hotelList = firstRows;
-                return conn.query(motelListQuery, [token])
-            })
-            .then(([secondRows, fields]) => {
-                conn.release()
-                motelList = secondRows;
-                allRooms = motelList.concat(hotelList);
-                return conn.query(getDatesOfHotel, [token])
-            })
-            .then(([thirdRows, fields]) => {
-                conn.release()
-                hotelReservationDate = thirdRows;
-                groupedHotel = groupBy(hotelReservationDate, 'HOTEL_ID');
-                hotelCheckInOut = getCheckInOut(groupedHotel);
-                return conn.query(getDatesOfMotel, [token])
-            })
-            .then(([fourthRows, fields]) => {
-                conn.release()
-                motelReservationDate = fourthRows;
-                const groupedMotel = groupBy(motelReservationDate, 'MOTEL_ID');
-                const motelCheckInOut = getCheckInOut(groupedMotel);
-                const allRoomsCheckInOut = motelCheckInOut.concat(hotelCheckInOut);
-                const arrayToObj = allRoomsCheckInOut.map(([checkIn, checkOut]) => ({checkIn, checkOut}));
-                allRooms.forEach((x, i) => {
-                    x.checkIn = arrayToObj[i].checkIn;
-                    x.checkOut = arrayToObj[i].checkOut;
-                });
-                let render = { allRooms };
-                const endPoint = req.path;
-                req.session.returnTo = endPoint;
-                if (req.session.auth) {
-                    render['authorized'] = req.session.auth;
-                }
-                req.session.save(function () {
-                    res.render('myPage', render);
-                });
-            })
-            .catch(err => {
-                return res.status(400).json({ success: false, err });
-            })
+                hotelList = getCheckInOut(firstRows);
+                return conn.query(motel, [token])
+        }).then(([secondRows, fields]) => {
+            conn.release();
+            motelList = getCheckInOut(secondRows);
+
+            const allList = motelList.concat(hotelList);
+            const render = { allList }
+            if (req.session.auth) {
+                render['authorized'] = req.session.auth;
+            }
+            req.session.save(function () {
+                res.render('myPage', render);
+            });
+        }).catch(err => {
+            return res.status(400).json({ success: false, err });
+        })
         conn.release();
     });
 });
