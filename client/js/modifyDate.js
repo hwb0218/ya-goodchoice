@@ -1,4 +1,3 @@
-// const Axios = require('axios');
 const ul = document.querySelector('.room_group_list');
 const modal = document.querySelector('.modal');
 
@@ -19,15 +18,17 @@ const modalContent = (e) => {
 const openModal = (e) => {
     if(!e.target.classList.contains('modifyDateBtn')
         && !e.target.classList.contains('reservationCancellationBtn')) return;
-
-    const {roomType, roomId} = e.target.dataset;
+    const {roomType, groupOfRooms, roomId} = e.target.dataset;
     const selectedRoomType = document.querySelector('#roomType');
+    const selectedGroupOfRooms = document.querySelector('#groupOfRooms');
     const selectedRoomId = document.querySelector('#roomId');
 
     modalContent(e);
     modal.classList.remove('hidden');
     selectedRoomType.value = roomType;
+    selectedGroupOfRooms.value = groupOfRooms;
     selectedRoomId.value = roomId;
+
 }
 ul.addEventListener('click', openModal);
 

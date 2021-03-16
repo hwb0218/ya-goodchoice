@@ -1,9 +1,11 @@
 .sub__top {
+    max-width: 100%;
     padding: 115px 20px 0 20px;
     margin: 0 auto;
     height: 210px;
     font-size: 40px;
     font-weight: 700;
+    top: 80px;
     color: white;
     background-color: #f6323e;
 }
@@ -33,7 +35,7 @@
 }
 
 .menu > ul > li > a {
-    display: block;
+    display: inline-block;
     width: 200px;
 }
 

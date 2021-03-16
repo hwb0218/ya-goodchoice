@@ -5,8 +5,8 @@ const { getCheckInOut } = require('../lib/myPageOptions');
 
 router.get('/', (req, res) => {
     const token = req.session.auth;
-    const hotel = 'SELECT HOTEL_NAME, HOTEL_IMAGE, ROOM_TYPE, MIN(RESERVATION_DATE) AS CHECK_IN, MAX(RESERVATION_DATE) AS CHECK_OUT FROM hotel_reservation LEFT JOIN hotel ON hotel_reservation.HOTEL_ID = hotel.HOTEL_ID WHERE USER_ID IN (SELECT user.id FROM user WHERE token = ?) GROUP BY GROUP_OF_ROOMS';
-    const motel = 'SELECT MOTEL_NAME, MOTEL_IMAGE, ROOM_TYPE, MIN(RESERVATION_DATE) AS CHECK_IN, MAX(RESERVATION_DATE) AS CHECK_OUT FROM motel_reservation LEFT JOIN motel ON motel_reservation.MOTEL_ID = motel.MOTEL_ID WHERE USER_ID IN (SELECT user.id FROM user WHERE token = ?) GROUP BY GROUP_OF_ROOMS';
+    const hotel = 'SELECT HOTEL_NAME, GROUP_OF_ROOMS, hotel_reservation.HOTEL_ID, HOTEL_IMAGE, ROOM_TYPE, MIN(RESERVATION_DATE) AS CHECK_IN, MAX(RESERVATION_DATE) AS CHECK_OUT FROM hotel_reservation LEFT JOIN hotel ON hotel_reservation.HOTEL_ID = hotel.HOTEL_ID WHERE USER_ID IN (SELECT user.id FROM user WHERE token = ?) GROUP BY GROUP_OF_ROOMS';
+    const motel = 'SELECT MOTEL_NAME, GROUP_OF_ROOMS, motel_reservation.MOTEL_ID, MOTEL_IMAGE, ROOM_TYPE, MIN(RESERVATION_DATE) AS CHECK_IN, MAX(RESERVATION_DATE) AS CHECK_OUT FROM motel_reservation LEFT JOIN motel ON motel_reservation.MOTEL_ID = motel.MOTEL_ID WHERE USER_ID IN (SELECT user.id FROM user WHERE token = ?) GROUP BY GROUP_OF_ROOMS';
     let hotelList, motelList;
     connection.getConnection().then(conn => {
         return conn.query(hotel, [token])

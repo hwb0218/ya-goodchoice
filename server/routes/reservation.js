@@ -13,6 +13,7 @@ router.get('/toMakeAReservation', (req, res) => {
     const selectUserIdQuery = 'SELECT user.id FROM user WHERE token = ?';
     const selectGroupQuery = `SELECT GROUP_OF_ROOMS FROM ${roomType}_reservation WHERE USER_ID = ? ORDER BY RESERVATION_ID DESC LIMIT 1`;
     const insertReservationQuery = `INSERT INTO ${roomType}_reservation (RESERVATION_DATE, ${roomTypeUpperCase}_ID, USER_ID, GROUP_OF_ROOMS) VALUES ?`;
+
     connection.getConnection().then(conn => {
         return conn.query(selectUserIdQuery, [req.session.auth])
             .then(([firstRows, fields]) => {
@@ -33,25 +34,33 @@ router.get('/toMakeAReservation', (req, res) => {
 });
 
 router.post('/updateReservationDates',(req, res) => {
+    let userId;
     const selectedDates = filterModule.getObjValues(req, 'sel_date');
     const [checkIn , checkOut] = selectedDates;
-    const { roomId, roomType } = req.body;
+    const { roomId, groupOfRooms, roomType } = req.body;
     const roomTypeUpperCase = roomType.toUpperCase();
     const token = req.session.auth;
-    const deleteQuery = `DELETE FROM ${roomType}_reservation WHERE ${roomTypeUpperCase}_ID = ? AND USER_ID IN (SELECT user.id FROM user WHERE token =?)`;
-    const selectQuery = 'SELECT user.id FROM user WHERE token = ?';
-    const insertQuery = `INSERT INTO ${roomType}_reservation (RESERVATION_DATE, ${roomTypeUpperCase}_ID, USER_ID) VALUES ?`
-    // INSERT INTO QUERY 작업하기
+    const deleteQuery = `DELETE FROM ${roomType}_reservation WHERE GROUP_OF_ROOMS = ? AND USER_ID IN (SELECT user.id FROM user WHERE token =?)`;
+    const selectUserIdQuery = 'SELECT user.id FROM user WHERE token = ?';
+    const selectGroupQuery = `SELECT GROUP_OF_ROOMS FROM ${roomType}_reservation WHERE USER_ID = ? ORDER BY RESERVATION_ID DESC LIMIT 1`;
+    const insertReservationQuery = `INSERT INTO ${roomType}_reservation (RESERVATION_DATE, ${roomTypeUpperCase}_ID, USER_ID, GROUP_OF_ROOMS) VALUES ?`
+
     connection.getConnection().then(conn => {
-        return conn.query(deleteQuery, [roomId, token])
+        return conn.query(deleteQuery, [groupOfRooms, token])
             .then(([firstRows, fields]) => {
                 conn.release();
-                return conn.query(selectQuery, [req.session.auth])
-            }).then(([userId, fields]) => {
+                return conn.query(selectUserIdQuery, [req.session.auth])
+            })
+            .then(([usersId, fields]) => {
                 conn.release();
-                const values = reservation(checkIn, checkOut, roomId, userId[0].id);
-                return conn.query(insertQuery, [values]);
-            }).then(([result, fields]) => {
+                userId = usersId[0].id;
+                return conn.query(selectGroupQuery, [userId])})
+            .then(([group, fields]) => {
+                const numberOfGroup = group;
+                const values = reservation(checkIn, checkOut, roomId, userId, numberOfGroup);
+                return conn.query(insertReservationQuery, [values]);
+            })
+            .then(([result, fields]) => {
                 res.status(200).redirect('/myPage');
             }).catch(err => console.error(err));
         conn.release();
@@ -59,12 +68,12 @@ router.post('/updateReservationDates',(req, res) => {
 });
 
 router.post('/reservationCancellation', (req, res) => {
-    const { roomId, roomType } = req.body;
-    const roomTypeUpperCase = roomType.toUpperCase();
+    const { groupOfRooms, roomType } = req.body;
     const token = req.session.auth;
-    const deleteQuery = `DELETE FROM ${roomType}_reservation WHERE ${roomTypeUpperCase}_ID = ? AND USER_ID IN (SELECT user.id FROM user WHERE token =?)`;
+    const deleteQuery = `DELETE FROM ${roomType}_reservation WHERE GROUP_OF_ROOMS = ? AND USER_ID IN (SELECT user.id FROM user WHERE token =?)`;
+
     connection.getConnection().then(conn => {
-        return conn.query(deleteQuery, [roomId, token])
+        return conn.query(deleteQuery, [groupOfRooms, token])
             .then(([result, fields]) => {
                 conn.release();
                 res.status(200).redirect('/myPage');
