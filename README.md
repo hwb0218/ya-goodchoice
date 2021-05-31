@@ -19,6 +19,7 @@
 - MySQL
 - Express
 - AWS
+- Third-party-library (jwt, bcrypt 등)
 
 </br>
 
