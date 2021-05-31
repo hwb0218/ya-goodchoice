@@ -1,6 +1,8 @@
 # 📌 GoodChoice      
 `숙소 예약 서비스 개인 프로젝트`     
-> [GoodChoice](http://www.goodchoice.gq/){:target="_blank"}
+> [GoodChoice](http://www.goodchoice.gq/)
+> <a href="http://www.goodchoice.gq/" target="_blank">GoodChoice</a>
+
 </br>
 
 ## 1. 제작 기간
