@@ -7,7 +7,6 @@ html(lang="ko")
         link(href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet")
         block head
     body
-
         form(action=path method='get' id='form')
             input(type='hidden' name='sort' id='sort' value=sort)
             input(type='hidden' name='roomType' id='roomType')
@@ -35,7 +34,7 @@ html(lang="ko")
                         input.datepicker(type='date' id='checkOut' name='sel_date2')
                     span 상세조건
                     section.btn_wrap
-                        button(type='button' onclick="window.location.href='http://localhost:3030/motel'") 초기화
+                        button(type='button' onclick=`window.location.href='http://www.goodchoice.gq${path}'`) 초기화
                         button(type='submit') 적용
                     block category
 

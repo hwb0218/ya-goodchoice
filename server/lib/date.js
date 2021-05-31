@@ -13,7 +13,6 @@ const dateFormatting = (date) => {
         return b(a);
     }, date);
 }
-
 module.exports = {
     dateFormatting
 }
