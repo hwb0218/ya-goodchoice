@@ -79,7 +79,7 @@
 - 때문에 SQL 문법으로 해결할 수 있지 않을까 하는 생각에 검색을 하며 데이터를 그룹화하는 방법이 있나 찾아본 결과        
   GROUP BY절로 해결할 수 있다는 것을 알아냈습니다.     
   
-  >__hotel·motel_reservation 테이블에 GROUP_OF_ROOMS 열을 추가했고 GROUP_BY절을 사용해       
+  >__해결 한 방법 > hotel·motel_reservation 테이블에 GROUP_OF_ROOMS 열을 추가했고 GROUP_BY절을 사용해       
   >같은 숫자를 가지고 있으면 그룹화 시켜줬습니다.__
 
 ## 6. 느낀점
