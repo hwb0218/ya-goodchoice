@@ -26,7 +26,7 @@ block roomList
     each val in hotel
         div.img(style=`background-image: url(${val.HOTEL_IMAGE});`)
             if authorized && selectedDate.length > 0
-                button.reservationBtn(type='button') 예약하기
+                button.reservationBtn(type='button' value=val.HOTEL_ID) 예약하기
             div.content
                 div.container
                     span #{val.HOTEL_NAME}

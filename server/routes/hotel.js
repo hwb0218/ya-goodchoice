@@ -28,7 +28,7 @@ router.get('/', (req, res) => {
 
             let render = { filterData, category1, category2, category3, category4, checked, selectedDate, path };
 
-            const defaultQuery = "SELECT HOTEL_NAME, HOTEL_OPTION, HOTEL_PRICE, HOTEL_IMAGE FROM hotel";
+            const defaultQuery = "SELECT HOTEL_ID, HOTEL_NAME, HOTEL_OPTION, HOTEL_PRICE, HOTEL_IMAGE FROM hotel";
             const priceQuery = " WHERE (HOTEL_PRICE BETWEEN ? AND ?)";
             const optionQuery = " AND regexp_like(concat(',', HOTEL_OPTION,','), ?)";
             const ascSortQuery = " ORDER BY HOTEL_PRICE ASC";
