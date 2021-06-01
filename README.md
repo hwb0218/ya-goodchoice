@@ -18,7 +18,7 @@
 - Node.js
 - MySQL
 - Express
-- AWS
+- AWS (EC2, RDS)
 - Third-party-library (jwt, bcrypt 등)
 
 </br>
