@@ -25,7 +25,7 @@
 
 ## 3. ERD 설계
 
-![ERD1](https://user-images.githubusercontent.com/52212226/108705980-5263b900-7551-11eb-8867-ac3810323b01.PNG)
+![ERD](https://user-images.githubusercontent.com/52212226/120278724-986aae80-c2f0-11eb-8f05-eb3a753aa1d3.png)
 
 ## 4. 주요 기능
 이 서비스의 주요 기능은 사용자가 원하는 숙소의 옵션과 날짜를 선택하여 예약, 수정, 취소하는 기능입니다.
