@@ -1,4 +1,4 @@
-# 📌 GoodChoice      
+# 📌 Good choice      
 > __숙소 예약 서비스 개인 프로젝트__     
 > [GoodChoice](http://www.goodchoice.gq/)
 
