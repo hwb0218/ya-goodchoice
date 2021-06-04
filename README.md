@@ -1,6 +1,6 @@
 # 📌 Good choice      
 __`숙소 예약 서비스`__
-> [GoodChoice](http://www.goodchoice.gq/)
+> Demolink: [GoodChoice](http://www.goodchoice.gq/)
 
 </br>
 
