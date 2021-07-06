@@ -1,7 +1,7 @@
 # 📌 Good choice      
 __`숙소 예약 서비스`__
 > Demolink      
-> [GoodChoice](http://www.goodchoice.gq/)
+> [GoodChoice](http://3.36.140.38/)
 
 </br>
 
